@@ -5,6 +5,8 @@ import Signin from '../pages/Signin';
 import Main from '../pages/Main';
 import NoPage from '../pages/Nopage'
 import Home from '../pages/Home';
+import Obchod from '../pages/Obchod';
+import Kosik from './Kosik';
 
 function Menu() {
   return (
@@ -15,6 +17,8 @@ function Menu() {
         <Route path="/pages/Login" element={<Login />} />
         <Route path="/pages/Signin" element={<Signin />} />
         <Route path="/pages/Main" element={<Main />} />
+        <Route path="/pages/Obchod" element={<Obchod />} />
+        <Route path="/components/Kosik" element={<Kosik />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </HashRouter>
