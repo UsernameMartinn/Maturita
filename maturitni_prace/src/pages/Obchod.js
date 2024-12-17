@@ -5,14 +5,76 @@ import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import '../App.css';
-import Kosik from '../components/Kosik';
+import Kosik from './Kosik';
 
 function Obchod() {
+    const [kosik, nastavKosik] = useState([]);
 
-    const [kosik, nastavKosik] = useState([])
+    // Načtení košíku z localStorage při načtení komponenty
+    useEffect(() => {
+        const savedKosik = JSON.parse(localStorage.getItem('kosik'));
+        if (savedKosik) {
+            nastavKosik(savedKosik);
+        }
+    }, []);
+
+    // Uložení košíku do localStorage při jeho změně
+    useEffect(() => {
+        if (kosik.length > 0) {
+            localStorage.setItem('kosik', JSON.stringify(kosik));
+        }
+    }, [kosik]);
 
     function pridatZbozi(hra) {
-        nastavKosik(kosik => [...kosik, hra]);
+        const existujiciHra = kosik.find(zbozi => zbozi.title === hra.title);
+
+        if (existujiciHra) {
+            // Pokud hra již v košíku je, upravíme ji
+            const novyKosik = kosik.map(zbozi => {
+                if (zbozi.title === hra.title) {
+                    // Přepočítáme celkovou cenu a množství
+                    return {
+                        ...zbozi,
+                        mnozstvi: zbozi.mnozstvi + 1,
+                        celkovaCena: (zbozi.price * (zbozi.mnozstvi + 1)) // Přepočítáme celkovou cenu
+                    };
+                } else {
+                    return zbozi;
+                }
+            });
+
+            // Aktualizujeme stav s novým košíkem
+            nastavKosik(novyKosik);
+        } else {
+            // Pokud hra není v košíku, přidáme ji s množstvím 1 a celkovou cenou
+            nastavKosik(kosik => [...kosik, { ...hra, mnozstvi: 1, celkovaCena: hra.price }]);
+        }
+    }
+
+    function odebratZbozi(hra) {
+        const existujiciHra = kosik.find(zbozi => zbozi.title === hra.title);
+
+        if (existujiciHra) {
+            // Pokud množství je větší než 1, snížíme ho
+            if (existujiciHra.mnozstvi > 1) {
+                const novyKosik = kosik.map(zbozi => {
+                    if (zbozi.title === hra.title) {
+                        return {
+                            ...zbozi,
+                            mnozstvi: zbozi.mnozstvi - 1,
+                            celkovaCena: zbozi.price * (zbozi.mnozstvi - 1) // Přepočítáme celkovou cenu
+                        };
+                    } else {
+                        return zbozi;
+                    }
+                });
+                nastavKosik(novyKosik);
+            } else {
+                // Pokud je množství 1, odstraníme položku z košíku
+                const novyKosik = kosik.filter(zbozi => zbozi.title !== hra.title);
+                nastavKosik(novyKosik);
+            }
+        }
     }
 
     const hryData = [
@@ -96,14 +158,15 @@ function Obchod() {
                                 <p>Cena: {hra.price}</p>
                                 <p>Vývojář: {hra.developer}</p>
                                 <button onClick={() => pridatZbozi(hra)}>Přidat</button>
+                                <button onClick={() => odebratZbozi(hra)}>Odebrat</button>
                             </Typography>
                         </Paper>
                     </Grid>
                 ))}
             </Grid>
-            {<Kosik kosik={kosik} />}
         </>
     );
 }
 
 export default Obchod
+
