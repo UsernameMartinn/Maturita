@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
@@ -8,12 +9,26 @@ import '../App.css';
 import Kosik from './Kosik';
 
 function Obchod() {
+    const [kosik, nastavKosik] = useState([]);
 
-    const [kosik, nastavKosik] = useState([])
+    // Načtení košíku z localStorage při načtení komponenty
+    useEffect(() => {
+        const savedKosik = JSON.parse(localStorage.getItem('kosik'));
+        if (savedKosik) {
+            nastavKosik(savedKosik);
+        }
+    }, []);
+
+    // Uložení košíku do localStorage při jeho změně
+    useEffect(() => {
+        if (kosik.length > 0) {
+            localStorage.setItem('kosik', JSON.stringify(kosik));
+        }
+    }, [kosik]);
 
     function pridatZbozi(hra) {
         const existujiciHra = kosik.find(zbozi => zbozi.title === hra.title);
-    
+
         if (existujiciHra) {
             // Pokud hra již v košíku je, upravíme ji
             const novyKosik = kosik.map(zbozi => {
@@ -28,7 +43,7 @@ function Obchod() {
                     return zbozi;
                 }
             });
-    
+
             // Aktualizujeme stav s novým košíkem
             nastavKosik(novyKosik);
         } else {
@@ -150,7 +165,6 @@ function Obchod() {
                     </Grid>
                 ))}
             </Grid>
-            {<Kosik kosik={kosik} />}
         </>
     );
 }

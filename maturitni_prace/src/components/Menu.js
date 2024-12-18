@@ -7,6 +7,7 @@ import NoPage from '../pages/Nopage'
 import Home from '../pages/Home';
 import Obchod from '../pages/Obchod';
 import Kosik from '../pages/Kosik';
+import Onas from '../pages/Onas'
 
 function Menu() {
   return (
@@ -14,11 +15,12 @@ function Menu() {
       <Navigation />
       <Routes>
         <Route index element={<Home />} />
+        <Route path="/pages/Onas" element={<Onas />} />
         <Route path="/pages/Login" element={<Login />} />
         <Route path="/pages/Signin" element={<Signin />} />
         <Route path="/pages/Main" element={<Main />} />
         <Route path="/pages/Obchod" element={<Obchod />} />
-        <Route path="/components/Kosik" element={<Kosik />} />
+        <Route path="/pages/Kosik" element={<Kosik />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </HashRouter>
