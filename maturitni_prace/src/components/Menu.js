@@ -5,8 +5,8 @@ import Signin from '../pages/Signin';
 import Main from '../pages/Main';
 import NoPage from '../pages/Nopage'
 import Home from '../pages/Home';
-import Obchod from '../pages/Obchod';
-import Kosik from '../pages/Kosik';
+import Obchod from '../pages/Obchod'
+import Kosik from '../pages/Kosik'
 import Onas from '../pages/Onas'
 
 function Menu() {
