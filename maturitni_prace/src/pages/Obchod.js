@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
+import { IconButton } from '@mui/material';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import '../App.css';
 import Kosik from './Kosik';
 
@@ -158,7 +160,9 @@ function Obchod() {
                                 <p>Žánr: {hra.genre}</p>
                                 <p>Cena: {hra.price}</p>
                                 <p>Vývojář: {hra.developer}</p>
-                                <button onClick={() => pridatZbozi(hra)}>Přidat</button>
+                                <IconButton onClick={() => pridatZbozi(hra)} color="primary" aria-label="add to shopping cart" >
+                                    <AddShoppingCartIcon />
+                                </IconButton>
                                 <button onClick={() => odebratZbozi(hra)}>Odebrat</button>
                             </Typography>
                         </Paper>
