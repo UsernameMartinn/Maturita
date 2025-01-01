@@ -14,6 +14,7 @@ class Users(Base):
     zalozeno = Column(DateTime, default=datetime.utcnow)
 
     owned_games = relationship('UserGames', back_populates='user')
+    reviews = relationship('Review', back_populates='user')
 
 class Genre(Base):
     __tablename__ = 'genre'
@@ -52,6 +53,25 @@ class Store(Base):
     genre = relationship('Genre', back_populates='hra')
     developer = relationship('Developer', back_populates='hra')
     owners = relationship('UserGames', back_populates='hra')
+    reviews = relationship('Review', back_populates='store')
+
+class Review(Base):
+    __tablename__ = 'reviews'
+
+    id = Column(Integer, primary_key=True)
+    store_id = Column(Integer, ForeignKey('store.id', ondelete='CASCADE'))
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+    rating = Column(Integer)  # Například hodnocení na škále 1-5
+    review_text = Column(String(255))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # Pro like a dislike
+    likes = Column(Integer, default=0)
+    dislikes = Column(Integer, default=0)
+
+    store = relationship('Store', back_populates='reviews')
+    user = relationship('Users', back_populates='reviews')
+
 
 engine = create_engine("postgresql+psycopg2://postgres:1234@localhost/postgres")
 

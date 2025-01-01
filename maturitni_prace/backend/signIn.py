@@ -4,18 +4,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from vytvorDB import Users  # import modelu Users
+import bcrypt
 
 app = Flask(__name__)
 
 # Povolení CORS pro všechny domény
-CORS(app, resources={r"/Signin": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/SignIn": {"origins": "http://localhost:3000"}})
 
 # Připojení k databázi
 DATABASE_URL = "postgresql+psycopg2://postgres:1234@localhost/postgres"
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 
-@app.route('/Signin', methods=['POST'])
+@app.route('/SignIn', methods=['POST'])
 def signup():
     # Získání dat z požadavku
     data = request.get_json()
@@ -37,9 +38,12 @@ def signup():
     if existing_user:
         session.close()
         return jsonify({'error': 'Uživatel s tímto e-mailem nebo jménem již existuje'}), 400
+    
+    # Heslo se zašifruje pomocí bcrypt
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     # Vytvoření nové instance uživatele
-    new_user = Users(user_name=name, user_mail=email, password=password)
+    new_user = Users(user_name=name, user_mail=email, password=hashed_password.decode('utf-8'))
 
     try:
         # Přidání nového uživatele do databáze

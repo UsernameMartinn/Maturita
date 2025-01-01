@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import Obchod from '../pages/Obchod'
 import Kosik from '../pages/Kosik'
 import Onas from '../pages/Onas'
+import DetailHry from '../pages/DetailHry';
 
 function Menu() {
   return (
@@ -21,6 +22,7 @@ function Menu() {
         <Route path="/pages/Main" element={<Main />} />
         <Route path="/pages/Obchod" element={<Obchod />} />
         <Route path="/pages/Kosik" element={<Kosik />} />
+        <Route path="/detail/:title" element={<DetailHry />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </HashRouter>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Signin() {
+function SignIn() {
   // Definujeme stavy pro jednotlivé hodnoty formuláře
   const [user_name, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ function Signin() {
     const userData = { user_name, email, password };
 
     try {
-      const response = await fetch('http://localhost:5000/Signin', {
+      const response = await fetch('http://localhost:5000/SignIn', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,4 +97,4 @@ function Signin() {
   );
 }
 
-export default Signin;
+export default SignIn;
