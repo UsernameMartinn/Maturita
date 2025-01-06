@@ -4,6 +4,72 @@ from datetime import datetime
 
 Base = declarative_base()
 
+hryData = [
+        {
+            "title": "The Witcher 3: Wild Hunt",
+            "price": 39.99,
+            "genre": "Action RPG",
+            "developer": "CD Projekt Red",
+            "img": '/assets/witcher.jpg'
+        },
+        {
+            "title": "Cyberpunk 2077",
+            "price": 59.99,
+            "genre": "Action RPG",
+            "developer": "CD Projekt Red",
+            "img": '/assets/cyber_punk.jpg'
+        },
+        {
+            "title": "Minecraft",
+            "price": 26.95,
+            "genre": "Sandbox, Survival",
+            "developer": "Mojang Studios",
+            "img": '/assets/minecraft.jpg'
+        },
+        {
+            "title": "The Legend of Zelda: Breath of the Wild",
+            "price": 59.99,
+            "genre": "Action-Adventure",
+            "developer": "Nintendo",
+            "img": '/assets/zelda.jpg'
+        },
+        {
+            "title": "Red Dead Redemption 2",
+            "price": 49.99,
+            "genre": "Action-Adventure, Open World",
+            "developer": "Rockstar Games",
+            "img": '/assets/rdd_two.jpg'
+        },
+        {
+            "title": "Grand Theft Auto V",
+            "price": 29.99,
+            "genre": "Action-Adventure, Open World",
+            "developer": "Rockstar North",
+            "img": '/assets/gta_V.jpg'
+        },
+        {
+            "title": "Dark Souls III",
+            "price": 39.99,
+            "genre": "Action RPG",
+            "developer": "FromSoftware",
+            "img": '/assets/dark_souls_III.jpg'
+        },
+        {
+            "title": "Fortnite",
+            "price": "Free-to-play",
+            "genre": "Battle Royale, Survival",
+            "developer": "Epic Games",
+            "img": '/assets/fortnite.jpg'
+        },
+        {
+            "title": "Call of Duty: Modern Warfare II (2022)",
+            "price": 69.99,
+            "genre": "First-Person Shooter",
+            "developer": "Infinity Ward",
+            "img": '/assets/CoD_MW_II.jpg'
+        }
+    ]
+
 class Users(Base):
     __tablename__ = 'users'
 
@@ -47,6 +113,7 @@ class Store(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(255), unique=True)
     price = Column(Integer)
+    img = Column(String(255), unique=True)
     genre_id = Column(Integer, ForeignKey('genre.id', ondelete='CASCADE'))
     developer_id = Column(Integer, ForeignKey('developer.id', ondelete='CASCADE'))
 
@@ -80,6 +147,44 @@ session = Session()
 
 Base.metadata.create_all(engine)
 
-session.commit()
+def insert_hry():
+    for hra in hryData:
+        genre_data = session.query(Genre).filter_by(genre=hra['genre']).first()
+
+        if not genre_data:
+            genre_data = Genre(genre=hra['genre'])
+            session.add(genre_data)
+
+        developer_data = session.query(Developer).filter_by(developer_name=hra['developer']).first()
+
+        if not developer_data:
+            developer_data = Developer(developer_name=hra['developer'])
+            session.add(developer_data)
+
+        store_data = session.query(Store).filter_by(title=hra['title']).first()
+
+        if not store_data:
+            # Ošetření ceny, pokud je "Free-to-play", nastaví cenu na 0
+            price = hra['price']
+            if price == "Free-to-play":
+                price = 0  # Nebo jakýkoliv jiný hodnotový přístup
+            elif isinstance(price, str):  # Pokud je cena ve formátu string, změňte na 0 nebo číslo
+                price = 0
+            store = Store(
+                title=hra['title'],
+                price=price,
+                img=hra['img'],
+                genre_id=genre_data.id,
+                developer_id=developer_data.id
+            )
+            session.add(store)
+
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()  # Vrátí všechny změny v případě chyby
+        print(f"Chyba při ukládání do databáze: {e}")
+
+insert_hry()
 
 session.close()

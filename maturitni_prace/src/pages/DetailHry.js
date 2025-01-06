@@ -11,10 +11,22 @@ import { Link } from 'react-router-dom';
 
 function DetailHry() {
     const { title } = useParams(); // Používáme useParams pro získání názvu hry z URL
+    const [hryData, setHryData] = useState([]);
     const [hra, setHra] = useState(null);
 
 
     const [kosik, nastavKosik] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/nactiHry')  // URL vašeho Python backendu
+            .then((response) => response.json())
+            .then((data) => {
+                // Najděte hru podle titulu
+                const hraDetail = data.find(hra => hra.title === title);
+                setHra(hraDetail);
+            })
+            .catch((error) => console.error('Chyba při načítání dat:', error));
+    }, [title]);
 
     // Načtení košíku z localStorage při načtení komponenty
     useEffect(() => {
@@ -82,73 +94,6 @@ function DetailHry() {
             }
         }
     }
-
-    // Data her
-    const hryData = [
-        {
-            "title": "The Witcher 3: Wild Hunt",
-            "price": 39.99,
-            "genre": "Action RPG",
-            "developer": "CD Projekt Red",
-            "img": '/assets/witcher.jpg'
-        },
-        {
-            "title": "Cyberpunk 2077",
-            "price": 59.99,
-            "genre": "Action RPG",
-            "developer": "CD Projekt Red",
-            "img": '/assets/cyber_punk.jpg'
-        },
-        {
-            "title": "Minecraft",
-            "price": 26.95,
-            "genre": "Sandbox, Survival",
-            "developer": "Mojang Studios",
-            "img": '/assets/minecraft.jpg'
-        },
-        {
-            "title": "The Legend of Zelda: Breath of the Wild",
-            "price": 59.99,
-            "genre": "Action-Adventure",
-            "developer": "Nintendo",
-            "img": '/assets/zelda.jpg'
-        },
-        {
-            "title": "Red Dead Redemption 2",
-            "price": 49.99,
-            "genre": "Action-Adventure, Open World",
-            "developer": "Rockstar Games",
-            "img": '/assets/rdd_two.jpg'
-        },
-        {
-            "title": "Grand Theft Auto V",
-            "price": 29.99,
-            "genre": "Action-Adventure, Open World",
-            "developer": "Rockstar North",
-            "img": '/assets/gta_V.jpg'
-        },
-        {
-            "title": "Dark Souls III",
-            "price": 39.99,
-            "genre": "Action RPG",
-            "developer": "FromSoftware",
-            "img": '/assets/dark_souls_III.jpg'
-        },
-        {
-            "title": "Fortnite",
-            "price": "Free-to-play",
-            "genre": "Battle Royale, Survival",
-            "developer": "Epic Games",
-            "img": '/assets/fortnite.jpg'
-        },
-        {
-            "title": "Call of Duty: Modern Warfare II (2022)",
-            "price": 69.99,
-            "genre": "First-Person Shooter",
-            "developer": "Infinity Ward",
-            "img": '/assets/CoD_MW_II.jpg'
-        }
-    ]
 
     useEffect(() => {
         // Hledáme hru podle názvu z URL
