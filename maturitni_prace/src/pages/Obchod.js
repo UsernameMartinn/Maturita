@@ -10,10 +10,10 @@ import Kosik from './Kosik';
 import { Link } from 'react-router-dom';
 
 function Obchod() {
-
     const [hryData, setHryData] = useState([]);
 
     // Načítání her z backendu při načítání komponenty
+    
     useEffect(() => {
         fetch('http://localhost:5000/nactiHry')  // URL vašeho Python backendu
             .then((response) => response.json())
