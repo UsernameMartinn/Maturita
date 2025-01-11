@@ -1,21 +1,21 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import bcrypt
-from Maturita.Maturita.maturitni_prace.backend.pgAdmin.vytvorDB import Users  # Import modelu Users
+from vytvorDB import Users  # Import modelu Users
 
-app = Flask(__name__)
+log_in_blueprint = Blueprint('log_in', __name__)
 
 # Povolení CORS pro všechny domény (povolit přístup z localhost:3000)
-CORS(app, resources={r"/LogIn": {"origins": "http://localhost:3000"}})
+CORS(log_in_blueprint, resources={r"/LogIn": {"origins": "http://localhost:3000"}})
 
 # Připojení k databázi
 DATABASE_URL = "postgresql+psycopg2://postgres:1234@localhost/postgres"
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 
-@app.route('/LogIn', methods=['POST'])
+@log_in_blueprint.route('/LogIn', methods=['POST'])
 def login():
     # Získání dat z požadavku
     data = request.get_json()
@@ -44,6 +44,3 @@ def login():
             return jsonify({'message': 'Úspěšné přihlášení', 'uzivatel': user.user_name, 'isLoggedIn': True, 'isAdmin': False}), 200
     else:
         return jsonify({'error': 'Chybné heslo'}), 400
-
-if __name__ == '__main__':
-    app.run(debug=True)

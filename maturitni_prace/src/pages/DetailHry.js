@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import Komentare from '../components/Komentare';
 
 function DetailHry() {
     const { title } = useParams(); // Používáme useParams pro získání názvu hry z URL
@@ -98,7 +99,10 @@ function DetailHry() {
         // Hledáme hru podle názvu z URL
         const hraDetail = hryData.find(hra => hra.title === title);
         setHra(hraDetail);
+        localStorage.setItem('hra', title);
     }, [title]);
+
+    localStorage.setItem('hra', title)
 
     if (!hra) {
         return <p>Hra nebyla nalezena.</p>;
@@ -129,6 +133,7 @@ function DetailHry() {
                     <button onClick={() => odebratZbozi(hra)}>Odebrat</button>
                 </Typography>
             </Paper>
+            <Komentare />
         </Grid>
     )
 }

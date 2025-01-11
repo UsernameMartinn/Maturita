@@ -17,3 +17,19 @@ body {
   height: 100%;
   background-color: rgb(124, 26, 178);
 }
+
+#komentare {
+  width: 100%;
+  text-align: center;
+}
+
+#comment {
+  list-style-type: none;
+  position: relative;
+  background: #fff;
+  font-size: 3;
+  position: relative;
+  max-width: 250px;
+  margin-bottom: 10px;
+  font-family: "Times New Roman", Times, Arial, sans-serif !important;
+}

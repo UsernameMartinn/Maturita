@@ -1,20 +1,20 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Maturita.Maturita.maturitni_prace.backend.pgAdmin.vytvorDB import Store, Genre, Developer
+from vytvorDB import Store, Genre, Developer
 
-app = Flask(__name__)
+nacti_hry_blueprint = Blueprint('nacti_hry', __name__)
 
 # Povolení CORS pro všechny domény (povolit přístup z localhost:3000)
-CORS(app, resources={r"/nactiHry": {"origins": "http://localhost:3000"}})
+CORS(nacti_hry_blueprint, resources={r"/nactiHry": {"origins": "http://localhost:3000"}})
 
 # Připojení k databázi
 DATABASE_URL = "postgresql+psycopg2://postgres:1234@localhost/postgres"
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 
-@app.route('/nactiHry', methods=['GET'])
+@nacti_hry_blueprint.route('/nactiHry', methods=['GET'])
 def nactiHry():
     session = Session()
     hry = session.query(Store).all()  # Získání všech her
@@ -38,6 +38,3 @@ def nactiHry():
     
     session.close()
     return jsonify(hryData)  # Vrátí data jako JSON
-
-if __name__ == '__main__':
-    app.run(debug=True)
