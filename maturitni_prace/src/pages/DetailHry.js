@@ -14,7 +14,6 @@ function DetailHry() {
     const [hryData, setHryData] = useState([]);
     const [hra, setHra] = useState(null);
 
-
     const [kosik, nastavKosik] = useState([]);
 
     useEffect(() => {

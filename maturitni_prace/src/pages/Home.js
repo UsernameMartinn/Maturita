@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
 import '../App.css';
+import Login from './Login';
 
-function Home() {
+function Home(props) {
   return (
     <div>
-      Home
+      Home/Novinky
+      {props.uzivatel}
     </div>
   )
 }

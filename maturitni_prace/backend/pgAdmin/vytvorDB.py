@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 from datetime import datetime
+import bcrypt
 
 Base = declarative_base()
 
@@ -185,6 +186,24 @@ def insert_hry():
         session.rollback()  # Vrátí všechny změny v případě chyby
         print(f"Chyba při ukládání do databáze: {e}")
 
+def pridejAdmina():
+    admin_password = 'heslo1234'
+    hashed_password = bcrypt.hashpw(admin_password.encode('utf-8'), bcrypt.gensalt())
+    adminExistuje = session.query(Users).filter_by(user_name='admin').first()
+
+    if not adminExistuje:
+        admin = Users(user_name='admin', user_mail='admin@domain.com', password=hashed_password.decode('utf-8'))
+        session.add(admin)
+
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()  # Vrátí všechny změny v případě chyby
+        print(f"Chyba při ukládání do databáze: {e}")
+    print(hashed_password)
+
+
 insert_hry()
+pridejAdmina()
 
 session.close()

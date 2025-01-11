@@ -39,6 +39,10 @@ def login():
 
     # Pokud uživatel existuje, zkontrolujeme heslo
     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-        return jsonify({'message': 'Úspěšné přihlášení', 'isLoggedIn': True}), 200
+        if user.user_name == 'admin' or user.user_mail == 'admin@domain.com':
+            return jsonify({'message': 'Úspěšné přihlášení', 'isLoggedIn': True, 'isAdmin': True}), 200
+        else:
+            return jsonify({'message': 'Úspěšné přihlášení', 'uzivatel': user.user_name, 'isLoggedIn': True, 'isAdmin': False}), 200
     else:
         return jsonify({'error': 'Chybné heslo'}), 400
+
