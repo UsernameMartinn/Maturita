@@ -3,7 +3,7 @@ from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import bcrypt
-from vytvorDB import Users  # Import modelu Users
+from Maturita.Maturita.maturitni_prace.backend.pgAdmin.vytvorDB import Users  # Import modelu Users
 
 app = Flask(__name__)
 

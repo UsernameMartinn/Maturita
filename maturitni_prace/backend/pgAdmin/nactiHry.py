@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from vytvorDB import Store, Genre, Developer
+from Maturita.Maturita.maturitni_prace.backend.pgAdmin.vytvorDB import Store, Genre, Developer
 
 app = Flask(__name__)
 
