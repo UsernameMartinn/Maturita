@@ -4,17 +4,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from vytvorDB import Users, Store, Review  # Import modelu Users
 
-komentare_blueprint = Blueprint('komentare', __name__)
+pridej_komentare_blueprint = Blueprint('komentare', __name__)
 
 # Povolení CORS pro všechny domény (povolit přístup z localhost:3000)
-CORS(komentare_blueprint, resources={r"/Komentare": {"origins": "http://localhost:3000"}})
+CORS(pridej_komentare_blueprint, resources={r"/Komentare": {"origins": "http://localhost:3000"}})
 
 # Připojení k databázi
 DATABASE_URL = "postgresql+psycopg2://postgres:1234@localhost/postgres"
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 
-@komentare_blueprint.route('/Komentare', methods=['POST'])
+@pridej_komentare_blueprint.route('/Komentare', methods=['POST'])
 def pridej_comment():
     # Získání dat z požadavku
     data = request.get_json()

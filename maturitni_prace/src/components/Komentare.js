@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { Typography } from "@mui/material";
+import Divider from '@mui/material/Divider';
 
 export default function Komentare() {
     const [comment, setComment] = useState('');
-    const [rating, setRating] = useState(0); // Inicializace na 0, aby byla hodnota definována
+    const [rating, setRating] = useState(0); // Inicializace na 0
+    const [comments, setComments] = useState([]); // Stav pro komentáře
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [uzivatel, setUzivatel] = useState('');
-    const [error, setError] = useState(''); // Stav pro chybovou hlášku
-    const [successMessage, setSuccessMessage] = useState(''); // Stav pro úspěšnou zprávu
     const [hra, setHra] = useState('');
 
     useEffect(() => {
@@ -24,19 +29,32 @@ export default function Komentare() {
         setHra(hra);
     }, []);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault(); // Zabraňujeme defaultnímu odeslání formuláře
+    useEffect(() => {
+        if (hra) {
+            // Volání backendu pro načtení komentářů pro konkrétní hru
+            fetch(`http://localhost:5000/nactiHry/${hra}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        setComments(data);
+                    }
+                })
+                .catch(error => setError('Chyba při načítání komentářů.'));
+        }
+    }, [hra]);  // Spustí se při změně hodnoty 'hra'
 
-        // Odeslání dat na server
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        // Odeslání komentáře
         const komentar = {
-            comment: comment.trim(),  // Odstranění mezer na začátku a na konci komentáře
-            rating: rating || 0,      // Pokud rating není definován, nastaví se na 0
+            comment: comment.trim(),
+            rating: rating || 0,
             uzivatel,
             hra
         };
-
-        // Debug: Zobrazení odesílaných dat
-        console.log('Sending komentar:', komentar);
 
         try {
             const response = await fetch('http://localhost:5000/Komentare', {
@@ -48,21 +66,26 @@ export default function Komentare() {
             });
 
             const data = await response.json();
-            console.log('Server response:', data); // Debug: Výstup odpovědi serveru
 
             if (response.ok) {
-                // Pokud je přihlášení úspěšné, zobrazíme zprávu o úspěchu
                 setSuccessMessage(data.message);
-                setError(''); // Vymažeme případnou předchozí chybovou zprávu
+                setError('');
+                // Po úspěšném odeslání komentáře můžeme přidat komentář do seznamu
+                setComments([...comments, {
+                    review_text: comment,
+                    rating: rating,
+                    user_name: uzivatel,
+                    created_at: new Date().toISOString(),  // Představíme si, že data budou přijít z backendu
+                    likes: 0,
+                    dislikes: 0,
+                }]);
             } else {
-                // Pokud dojde k chybě, nastavíme chybovou zprávu
                 setError(data.error);
-                setSuccessMessage(''); // Vymažeme případnou předchozí úspěšnou zprávu
+                setSuccessMessage('');
             }
         } catch (error) {
-            // Pokud nastane chyba při odesílání požadavku, nastavíme chybovou hlášku
             setError('Chyba při odesílání požadavku');
-            setSuccessMessage(''); // Vymažeme případnou předchozí úspěšnou zprávu
+            setSuccessMessage('');
         }
     };
 
@@ -71,7 +94,7 @@ export default function Komentare() {
     }
 
     return (
-        <>
+        <div>
             <div id="komentare">
                 <form onSubmit={handleSubmit}>
                     <input
@@ -88,8 +111,9 @@ export default function Komentare() {
                             name="half-rating"
                             value={rating}
                             precision={0.5}
-                            onChange={(newRating) => setRating(newRating)}
+                            onChange={(event, newRating) => setRating(newRating)} // nová opravená verze
                         />
+
                     </Stack>
                 </form>
             </div>
@@ -100,8 +124,25 @@ export default function Komentare() {
             {/* Zobrazení úspěšné zprávy */}
             {successMessage && <div className="success-message" style={{ color: 'green' }}>{successMessage}</div>}
 
-            <div>Je admin: {isAdmin ? 'Ano' : 'Ne'}</div>
-            <div>Je přihlášen: {isLoggedIn ? 'Ano' : 'Ne'} {uzivatel}</div>
-        </>
+            <Typography variant="h4">
+                RECENZE UŽIVATELŮ
+            </Typography>
+
+            {comments.length > 0 ? (
+                comments.map((komentar, index) => (
+                    <Paper variant="elevation" elevation={4} square={false} style={{ color: 'white', backgroundColor: 'rgb(85, 85, 85)', textAlign: "center", margin: 5, padding: 10 }}>
+                        <Divider>
+                            {komentar.user_name}, {komentar.created_at}
+                        </Divider>
+                        <Typography variant="h5">
+                            <Rating value={komentar.rating} readOnly />
+                            <p>{komentar.review_text}</p>
+                        </Typography>
+                    </Paper>
+                ))
+            ) : (
+                <p>Žádné komentáře zatím nejsou.</p>
+            )}
+        </div>
     );
 }
