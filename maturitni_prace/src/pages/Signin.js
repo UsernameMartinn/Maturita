@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   // Definujeme stavy pro jednotlivé hodnoty formuláře
@@ -8,6 +9,8 @@ function SignIn() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState(''); // Stav pro chybovou hlášku
   const [successMessage, setSuccessMessage] = useState(''); // Stav pro úspěšnou zprávu
+
+  const navigate = useNavigate();
 
   // Funkce pro odeslání formuláře
   const handleSubmit = async (event) => {
@@ -38,6 +41,7 @@ function SignIn() {
         // Pokud je registrace úspěšná, zobrazíme zprávu o úspěchu
         setSuccessMessage(data.message);
         setError(''); // Vymažeme případnou předchozí chybovou zprávu
+        navigate('../pages/logIn');
       } else {
         // Pokud dojde k chybě, nastavíme chybovou zprávu
         setError(data.error);

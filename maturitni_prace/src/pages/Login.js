@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function LogIn() {
   // Definujeme stavy pro jednotlivé hodnoty formuláře
@@ -9,6 +10,8 @@ function LogIn() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [uzivatel, setUzivatel] = useState('');
+
+  const navigate = useNavigate();
 
   // Funkce pro odeslání formuláře
   const handleSubmit = async (event) => {
@@ -41,6 +44,8 @@ function LogIn() {
         localStorage.setItem('uzivatel', data.uzivatel);
 
         setError(''); // Vymažeme případnou předchozí chybovou zprávu
+
+        navigate('../pages/main');
       } else {
         // Pokud dojde k chybě, nastavíme chybovou zprávu
         setError(data.error);

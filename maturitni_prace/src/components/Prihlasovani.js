@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from "react-router-dom";
 import Button from '@mui/material/Button';
 import '../App.css';
@@ -8,23 +8,52 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const options = [
-    { label: "Přihlásit se", path: "pages/Login" },
-    { label: "Vytvořit si účet", path: "pages/Signin" },
-    { label: "Pokračovat nepřihlášený", path: "pages/Main" },
-];
-
-const ITEM_HEIGHT = 48;
-
 export default function PrihlasovaciMenu() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [uzivatel, setUzivatel] = useState('');
+    const [hra, setHra] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
+    
     const open = Boolean(anchorEl);
+
+    useEffect(() => {
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';  // Načteme hodnoty z localStorage
+        const admin = localStorage.getItem('isAdmin') === 'true';
+        const uzivatel = localStorage.getItem('uzivatel');
+        const hra = localStorage.getItem('hra');
+
+        setIsLoggedIn(loggedIn);
+        setIsAdmin(admin);
+        setUzivatel(uzivatel);
+        setHra(hra);
+    }, [isLoggedIn]);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleLogout = () => {
+        // Zde můžete implementovat logiku pro odhlášení uživatele
+        localStorage.setItem('isLoggedIn', 'false');
+        setIsLoggedIn(false);
+    };
+
+    // Možnosti menu
+    const options = isLoggedIn
+        ? [
+            { label: "Odhlásit se", action: handleLogout }
+          ]
+        : [
+            { label: "Přihlásit se", path: "pages/login" },
+            { label: "Vytvořit si účet", path: "pages/signin" }
+          ];
+
+    const ITEM_HEIGHT = 48;
 
     return (
         <div>
@@ -55,11 +84,16 @@ export default function PrihlasovaciMenu() {
                     },
                 }}
             >
-                {options.map((option) => (
+                {options.map((option, index) => (
                     <MenuItem
-                        key={option.path}
-                        onClick={handleClose}
-                        component={Link}
+                        key={index}
+                        onClick={() => {
+                            handleClose();
+                            if (option.action) {
+                                option.action();
+                            }
+                        }}
+                        component={option.path ? Link : 'button'}
                         to={option.path}
                     >
                         {option.label}

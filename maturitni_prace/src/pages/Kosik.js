@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function Kosik() {
   const [kosik, nastavKosik] = useState([]);
+  const navigate = useNavigate();
 
   // Načteme košík z localStorage při načítání komponenty
   useEffect(() => {
@@ -11,6 +13,10 @@ function Kosik() {
       nastavKosik(savedKosik);
     }
   }, []);
+
+  function ZakoupitHry() {
+    navigate('../pages/Pokladna');
+  }
 
   return (
     <div>
@@ -26,6 +32,7 @@ function Kosik() {
           <p>Košík je prázdný.</p>
         )}
       </ul>
+      <button onClick={() => ZakoupitHry()}>Zaplatit</button>
     </div>
   );
 }
