@@ -17,6 +17,7 @@ pokud se vše povedlo, přejděte v příkazové řádce do složky maturitni_pr
 Teď na Vás asi vyskočilo spoustu chyb, které vyřešíte následujícími příkazy:
 npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 npm install react-router-dom
+npm install emailjs-com
 
 teď Vám běží FRONTEND aplikace, blahopřeji a pokud neběží a někde nastala chyba, tak Vám snad poradí ChatGPT
 

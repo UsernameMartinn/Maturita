@@ -42,6 +42,7 @@ function LogIn() {
         localStorage.setItem('isLoggedIn', data.isLoggedIn);
         localStorage.setItem('isAdmin', data.isAdmin);
         localStorage.setItem('uzivatel', data.uzivatel);
+        localStorage.setItem('mail', data.mail);
 
         setError(''); // Vymažeme případnou předchozí chybovou zprávu
 
