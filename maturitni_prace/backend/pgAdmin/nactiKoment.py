@@ -26,12 +26,13 @@ def nacti_comment(title):
             return jsonify({"error": "Hra nebyla nalezena"}), 404
 
         # Načteme komentáře pro danou hru (používáme store_id z modelu Store)
-        komentare = session.query(Review).filter(Review.store_id == hra.id).all()
+        komentare = session.query(Review).filter(Review.store_id == hra.id).order_by(Review.created_at.desc()).all()
 
         # Seznam pro uložení informací o komentářích
         seznam_komentaru = []
         for komentar in komentare:
             seznam_komentaru.append({
+                "id": komentar.id,
                 "rating": komentar.rating,
                 "review_text": komentar.review_text,
                 "created_at": komentar.created_at,
@@ -43,44 +44,4 @@ def nacti_comment(title):
         session.close()
         return jsonify(seznam_komentaru)  # Vrátí komentáře jako JSON
 
-    elif request.method == 'POST':
-        # Tento blok bude pro zpracování POST požadavku (např. přidání nového komentáře)
-        data = request.get_json()
-
-        comment_text = data.get('comment')
-        game_rating = data.get('rating')
-        user_name = data.get('uzivatel')  # Uživatelské jméno
-        game_title = data.get('hra')  # Název hry
-
-        # Získání uživatele podle uživatelského jména
-        user = session.query(Users).filter(Users.user_name == user_name).first()
-
-        if not user:
-            session.close()
-            return jsonify({"error": "Uživatel nebyl nalezen"}), 400
-
-        # Najdeme hru, na kterou bude komentář
-        game = session.query(Store).filter(Store.title == game_title).first()
-
-        if not game:
-            session.close()
-            return jsonify({"error": "Hra neexistuje"}), 400
-
-        # Vytvoření nového komentáře
-        new_review = Review(
-            store_id=game.id,
-            user_id=user.id,
-            rating=game_rating,
-            review_text=comment_text
-        )
-
-        try:
-            session.add(new_review)
-            session.commit()  # Uložíme nový komentář do databáze
-            session.close()
-            return jsonify({"message": "Komentář úspěšně přidán"}), 201
-        except Exception as e:
-            session.rollback()  # Vrátíme zpět všechny změny v případě chyby
-            session.close()
-            return jsonify({"error": str(e)}), 500
 

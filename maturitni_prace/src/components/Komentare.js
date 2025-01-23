@@ -40,6 +40,8 @@ export default function Komentare() {
                     } else {
                         setComments(data);
                     }
+                    const sortedComments = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        setComments(sortedComments);
                 })
                 .catch(error => setError('Chyba při načítání komentářů.'));
         }
@@ -70,15 +72,67 @@ export default function Komentare() {
             if (response.ok) {
                 setSuccessMessage(data.message);
                 setError('');
-                // Po úspěšném odeslání komentáře můžeme přidat komentář do seznamu
-                setComments([...comments, {
-                    review_text: comment,
-                    rating: rating,
-                    user_name: uzivatel,
-                    created_at: new Date().toISOString(),  // Představíme si, že data budou přijít z backendu
+                // Představme si, že backend vrátí nově vytvořený komentář s jeho id
+
+                const newComment = {
+                    ...komentar,
+                    id: data.id, // Předpokládáme, že backend vrátí id komentáře
                     likes: 0,
                     dislikes: 0,
-                }]);
+                    user_name: uzivatel,
+                    created_at: new Date().toISOString(), // Simulujeme vytvořený čas
+                };
+                setComments([...comments, newComment]);
+                
+            } else {
+                setError(data.error);
+                setSuccessMessage('');
+            }
+        } catch (error) {
+            setError('Chyba při odesílání požadavku');
+            setSuccessMessage('');
+        }
+    };
+
+    const handleLikeDislike = async (reviewId, action) => {
+        // Zjištění zda uživatel už interagoval s tímto komentářem
+        const commentIndex = comments.findIndex(comment => comment.id === reviewId);
+        const userHasInteracted = comments[commentIndex]?.user_interaction === action;
+    
+        if (userHasInteracted) {
+            return;  // Pokud uživatel už provedl stejnou akci, nic se nestane
+        }
+    
+        try {
+            const response = await fetch('http://localhost:5000/LikesDislikes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    review_id: reviewId,
+                    action: action,
+                    user_id: uzivatel,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                setSuccessMessage(data.message);
+                setError('');
+    
+                // Aktualizace likes nebo dislikes podle akce
+                setComments(comments.map(comment =>
+                    comment.id === reviewId
+                        ? {
+                            ...comment,
+                            likes: action === 'like' ? comment.likes + 1 : comment.likes,
+                            dislikes: action === 'dislike' ? comment.dislikes + 1 : comment.dislikes,
+                            user_interaction: action, // Zaznamenání akce uživatele (like nebo dislike)
+                        }
+                        : comment
+                ));
             } else {
                 setError(data.error);
                 setSuccessMessage('');
@@ -129,14 +183,16 @@ export default function Komentare() {
             </Typography>
 
             {comments.length > 0 ? (
-                comments.map((komentar, index) => (
-                    <Paper variant="elevation" elevation={4} square={false} style={{ color: 'white', backgroundColor: 'rgb(85, 85, 85)', textAlign: "center", margin: 5, padding: 10 }}>
+                comments.map((komentar) => (
+                    <Paper key={komentar.id} variant="elevation" elevation={4} square={false} style={{ color: 'white', backgroundColor: 'rgb(85, 85, 85)', textAlign: "center", margin: 5, padding: 10 }}>
                         <Divider>
                             {komentar.user_name}, {komentar.created_at}
                         </Divider>
                         <Typography variant="h5">
                             <Rating value={komentar.rating} readOnly />
                             <p>{komentar.review_text}</p>
+                            <button onClick={() => handleLikeDislike(komentar.id, 'like')}>Like {komentar.likes}</button>
+                            <button onClick={() => handleLikeDislike(komentar.id, 'dislike')}>Dislike {komentar.dislikes}</button>
                         </Typography>
                     </Paper>
                 ))

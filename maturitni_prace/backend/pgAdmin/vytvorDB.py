@@ -129,7 +129,7 @@ class Review(Base):
     id = Column(Integer, primary_key=True)
     store_id = Column(Integer, ForeignKey('store.id', ondelete='CASCADE'))
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
-    rating = Column(Integer)  # Například hodnocení na škále 1-5
+    rating = Column(Float)  # Například hodnocení na škále 1-5
     review_text = Column(String(255))
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -139,6 +139,17 @@ class Review(Base):
 
     store = relationship('Store', back_populates='reviews')
     user = relationship('Users', back_populates='reviews')
+
+class ReviewInteraction(Base):
+    __tablename__ = 'review_interactions'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+    review_id = Column(Integer, ForeignKey('reviews.id', ondelete='CASCADE'))
+    action = Column(String(10))  # 'like' nebo 'dislike'
+
+    user = relationship('Users')
+    review = relationship('Review')
 
 
 engine = create_engine("postgresql+psycopg2://postgres:1234@localhost/postgres")
