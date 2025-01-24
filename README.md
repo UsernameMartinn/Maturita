@@ -1,4 +1,6 @@
+E-shop na hry
 
+Tato aplikace je prostý e-shop na hry s možností přidávání zboží do košíku, komentování her, lajkování a dislajkování komentářů a přihlašování.
 
 
 Pro spuštění lokální verze stáhněte & nainstalujte tyto aplikace:
