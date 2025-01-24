@@ -6,15 +6,14 @@ import { Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { IconButton } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import '../App.css';
-import { Link } from 'react-router-dom';
 import Komentare from '../components/Komentare';
+import { Link } from 'react-router-dom';
+import '../DetailHry.css';
 
 function DetailHry() {
     const { title } = useParams(); // Používáme useParams pro získání názvu hry z URL
     const [hryData, setHryData] = useState([]);
     const [hra, setHra] = useState(null);
-
     const [kosik, nastavKosik] = useState([]);
 
     useEffect(() => {
@@ -45,26 +44,20 @@ function DetailHry() {
 
     function pridatZbozi(hra) {
         const existujiciHra = kosik.find(zbozi => zbozi.title === hra.title);
-
         if (existujiciHra) {
-            // Pokud hra již v košíku je, upravíme ji
             const novyKosik = kosik.map(zbozi => {
                 if (zbozi.title === hra.title) {
-                    // Přepočítáme celkovou cenu a množství
                     return {
                         ...zbozi,
                         mnozstvi: zbozi.mnozstvi + 1,
-                        celkovaCena: (zbozi.price * (zbozi.mnozstvi + 1)) // Přepočítáme celkovou cenu
+                        celkovaCena: (zbozi.price * (zbozi.mnozstvi + 1)),
                     };
                 } else {
                     return zbozi;
                 }
             });
-
-            // Aktualizujeme stav s novým košíkem
             nastavKosik(novyKosik);
         } else {
-            // Pokud hra není v košíku, přidáme ji s množstvím 1 a celkovou cenou
             nastavKosik(kosik => [...kosik, { ...hra, mnozstvi: 1, celkovaCena: hra.price }]);
         }
     }
@@ -94,48 +87,33 @@ function DetailHry() {
             }
         }
     }
-
-    useEffect(() => {
-        // Hledáme hru podle názvu z URL
-        const hraDetail = hryData.find(hra => hra.title === title);
-        setHra(hraDetail);
-        localStorage.setItem('hra', title);
-    }, [title]);
-
-    localStorage.setItem('hra', title)
-
+    
     if (!hra) {
         return <p>Hra nebyla nalezena.</p>;
     }
 
     return (
-        <Grid item xs={10}>
-            <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-                <Typography variant="h5">
-                    <Divider>
-                        {hra.title}
-                    </Divider>
-                </Typography>
-            </Paper>
-            <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-                <Typography variant="h5">
-                    <img src={hra.img} style={{ width: 400, height: 400 }} /><br />
-                    <p>Vývojář: {hra.developer}</p>
-                    <p>{hra.genre}</p>
-                    <p>{hra.price} USD</p>
-                    <p>{Math.round(hra.price * 24)} KČ</p>
-                    <Link to={`/pages/Kosik`}>
-                        <IconButton>
-                            <AddShoppingCartIcon />
-                        </IconButton>
-                    </Link>
-                    <button onClick={() => pridatZbozi(hra)} color="primary">Přidat</button>
-                    <button onClick={() => odebratZbozi(hra)}>Odebrat</button>
-                </Typography>
-            </Paper>
+        <div className="detail-container">
+            <Grid item xs={10}>
+                <Paper className="detail-paper">
+                    <Typography className="detail-title">{hra.title}</Typography>
+                    <img className="detail-image" src={hra.img} alt={hra.title} />
+                    <div className="detail-info">
+                        <p>Vývojář: {hra.developer}</p>
+                        <p>{hra.genre}</p>
+                        <p>Rok vydání: {hra.year}</p>
+                    </div>
+                    <div className="detail-price">
+                        <p>{hra.price} USD</p>
+                        <p>{Math.round(hra.price * 24)} KČ</p>
+                    </div>
+                    <button className="add-to-cart-button" onClick={() => pridatZbozi(hra)}>Přidat do košíku</button>
+                    <button className="add-to-cart-button" onClick={() => odebratZbozi(hra)}>Odebrat z košíku</button>
+                </Paper>
+            </Grid>
             <Komentare />
-        </Grid>
-    )
+        </div>
+    );
 }
 
 export default DetailHry;

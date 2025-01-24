@@ -1,57 +1,51 @@
-
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
-import '../App.css';
-import Kosik from './Kosik';
 import { Link } from 'react-router-dom';
+import '../Obchod.css'; // Nezapomeň importovat nový CSS soubor!
 
 function Obchod() {
-    const [hryData, setHryData] = useState([]);
+  const [hryData, setHryData] = useState([]);
 
-    // Načítání her z backendu při načítání komponenty
-    
-    useEffect(() => {
-        fetch('http://localhost:5000/nactiHry')  // URL vašeho Python backendu
-            .then((response) => response.json())
-            .then((data) => {
-                setHryData(data); // Uložení dat do stavu
-            })
-            .catch((error) => console.error('Chyba při načítání dat:', error));
-    }, []);
+  useEffect(() => {
+    fetch('http://localhost:5000/nactiHry')  
+      .then((response) => response.json())
+      .then((data) => {
+        setHryData(data);
+      })
+      .catch((error) => console.error('Chyba při načítání dat:', error));
+  }, []);
 
-    return (
-        <>
-            <Grid container spacing={0}>
-                {hryData.map((hra, index) => (
-                    <Grid item xs={4} key={index}>
-                        <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-                            <Typography variant="h5">
-                                <Divider>
-                                    {hra.title}
-                                </Divider>
-                            </Typography>
-                        </Paper>
-                        <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-                            <Typography variant="h5">
-                                <img src={hra.img} style={{ width: 400, height: 400 }}/><br />
-                                <p>{hra.genre}</p>
-                                <p>{hra.price} USD</p>
-                                <p>{Math.round(hra.price * 24)} KČ</p>
-                                {/* Odkaz na detailní stránku */}
-                                <Link to={`/detail/${encodeURIComponent(hra.title)}`}>
-                                    <button>Zobrazit detaily</button> {/* Tlačítko pro přesměrování */}
-                                </Link>
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
-        </>
-    );
+  return (
+    <div className="obchod-container"> {/* Třída pro celkový vzhled */}
+      <Grid container spacing={3}>
+        {hryData.map((hra, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <div className="game-card"> {/* Třída pro kartu hry */}
+              <img src={hra.img} alt={hra.title} className="game-image" />
+              <Typography variant="h5" className="game-title">
+                {hra.title}
+              </Typography>
+              <Typography variant="body1" className="game-genre">
+                {hra.genre}
+              </Typography>
+              <Typography variant="body2" className="game-price">
+                {hra.price} USD
+              </Typography>
+              <Typography variant="body2" className="game-price-czk">
+                {Math.round(hra.price * 24)} KČ
+              </Typography>
+              <Link to={`/detail/${encodeURIComponent(hra.title)}`} className="details-link">
+                <button className="details-button">Zobrazit detaily</button>
+              </Link>
+            </div>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
+  );
 }
 
-export default Obchod
+export default Obchod;

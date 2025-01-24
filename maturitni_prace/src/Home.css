@@ -1,0 +1,75 @@
+/* Celkové pozadí a layout */
+.home-container {
+    background-color: rgb(41, 37, 44); /* Tmavé pozadí pro celou stránku */
+    padding: 20px;
+    text-align: center;
+    color: white; /* Bílé texty pro kontrast */
+  }
+  
+  /* Hlavní nadpis */
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: rgb(124, 26, 178); /* Fialová barva pro nadpis */
+  }
+  
+  /* Stylování karet her */
+  .game-card {
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: rgb(41, 37, 44); /* Pozadí karet (stejná tmavá barva pro jednotnost) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    color: white; /* Bílé texty uvnitř karet */
+  }
+  
+  .game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: rgb(96, 7, 145);
+  }
+  
+  /* Obrázky her */
+  .game-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Název hry */
+  .game-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: rgb(124, 26, 178); /* Fialová barva pro název */
+  }
+  
+  /* Hodnocení a další detaily */
+  .rating, .game-genre, .game-price, .game-price-czk {
+    margin-top: 5px;
+    color: white; /* Intenzivní fialová pro drobné texty */
+  }
+  
+  /* Tlačítko pro detaily */
+  .details-button {
+    margin-top: 15px;
+    background-color: rgb(124, 26, 178); /* Fialové tlačítko */
+    color: white;
+    padding: 8px 16px;
+    text-transform: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover efekt pro tlačítko */
+  .details-button:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová při hover */
+    color: white;
+  }
+  
+  /* Link na detaily */
+  .MuiLink-root {
+    text-decoration: none;
+  }
+  

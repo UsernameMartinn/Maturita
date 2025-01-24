@@ -1,0 +1,152 @@
+/* Celkový vzhled DetailHry */
+.detail-container {
+    background-color: rgb(41, 37, 44); /* Tmavé pozadí pro stránku */
+    padding: 40px 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  
+  /* Hlavní papír s detaily hry */
+  .detail-paper {
+    background-color: rgb(41, 37, 44);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 900px;
+    margin: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  /* Hover efekt pro detailní papír */
+  .detail-paper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Obrázky hry */
+  .detail-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Název hry */
+  .detail-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: rgb(124, 26, 178); /* Fialová pro název */
+    margin-bottom: 20px;
+    text-transform: capitalize;
+  }
+  
+  /* Informace o hře */
+  .detail-info {
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: left; /* Text na levé straně pro lepší čitelnost */
+    width: 80%; /* Aby text nebyl přilepený na okraj */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Ceny hry (USD a KČ) */
+  .detail-price {
+    font-size: 1.1rem;
+    color: rgb(96, 7, 145); /* Jemně fialová pro cenu */
+    font-weight: 500;
+    margin-top: 5px;
+  }
+  
+  /* Tlačítko pro přidání do košíku */
+  .add-to-cart-button {
+    background-color: rgb(124, 26, 178); /* Fialová barva pro tlačítko */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-transform: none;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Hover efekt pro tlačítko */
+  .add-to-cart-button:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová při hover */
+    transform: translateY(-3px);
+  }
+  
+  /* Link na košík */
+  .details-link {
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  
+  /* Responzivní přizpůsobení pro různé obrazovky */
+  @media (max-width: 1024px) {
+    .detail-paper {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    .detail-image {
+      height: 250px; /* Mírně menší obrázek pro tablety */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .detail-paper {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .detail-image {
+      height: 220px; /* Ještě menší obrázek pro mobilní zařízení */
+    }
+  
+    .detail-title {
+      font-size: 1.8rem;
+    }
+  
+    .detail-info, .detail-price {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .detail-title {
+      font-size: 1.5rem;
+    }
+  
+    .detail-info {
+      font-size: 0.9rem;
+    }
+  
+    .add-to-cart-button {
+      font-size: 0.9rem;
+      padding: 10px 20px;
+    }
+  
+    .detail-price {
+      font-size: 1rem;
+    }
+  }
+  

@@ -1,29 +1,27 @@
-import React from 'react'
-import '../App.css';
+import React from 'react';
+import '../Onas.css';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
-import Divider from '@mui/material/Divider';
 
 function Kontakt() {
   return (
-    <div>
-      <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", width: "80%", marginLeft: "10%", marginTop: 40, marginBottom: 40, padding: 5 }}>
-        <Typography variant="h2" fontFamily={"Arial"}>
+    <div className="onas-container">
+      <Paper className="onas-title-paper" variant="elevation" elevation={4} square={false}>
+        <Typography className="onas-title">
           O nás
         </Typography>
       </Paper>
-      <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", width: "80%", marginLeft: "10%", padding: 5 }}>
+      <Paper className="onas-info-paper" variant="elevation" elevation={4} square={false}>
         <Typography variant="h4">
           Jsme firma, která Vás ráda uvede do světa her.
         </Typography>
-        <Typography variant="h4" textAlign={"left"} marginLeft={"3px"}>
-          <b>|Telefon: </b><br />
-          <b>|Email: </b><br />
+        <Typography className="onas-info-text">
+          <div className="onas-info-title">|Telefon: </div>
+          <div className="onas-info-title">|Email: </div>
         </Typography>
       </Paper>
     </div>
-  )
+  );
 }
 
-export default Kontakt
+export default Kontakt;

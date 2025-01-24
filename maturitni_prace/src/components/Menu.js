@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Navigation from './Navigation';
 import Login from '../pages/Login';
@@ -14,6 +15,9 @@ import Pokladna from '../pages/Pokladna';
 function Menu() {
   return (
     <HashRouter basename='/'>
+      <div id="page_head">
+      <img id="logo" src='/assets/Logo.PNG'/>
+      </div>
       <Navigation />
       <Routes>
         <Route index element={<Home />} />

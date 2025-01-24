@@ -1,0 +1,61 @@
+/* Celkový vzhled stránky */
+.onas-container {
+    background-color: rgb(245, 245, 245); /* Světlé pozadí pro celou stránku */
+    color: #333; /* Tmavě šedý text pro lepší čitelnost */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 20px;
+    height: 100vh;
+  }
+  
+  /* Sekce s nadpisem */
+  .onas-title-paper {
+    text-align: center;
+    width: 70%;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: rgb(255, 255, 255); /* Bílé pozadí pro nadpis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Jemný stín pro papír */
+    border-radius: 12px;
+  }
+  
+  .onas-title {
+    font-family: Arial, sans-serif;
+    font-size: 3rem;
+    color: rgb(124, 26, 178); /* Fialová pro nadpis */
+    margin: 0;
+  }
+  
+  /* Sekce s informacemi o firmě */
+  .onas-info-paper {
+    text-align: left;
+    width: 70%;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: rgb(255, 255, 255); /* Bílé pozadí pro info */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Jemný stín pro papír */
+    border-radius: 12px;
+  }
+  
+  .onas-info-text {
+    font-size: 1.2rem;
+    color: rgb(96, 7, 145); /* Intenzivní fialová pro texty */
+  }
+  
+  .onas-info-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .onas-title {
+      font-size: 2.5rem; /* Zmenší nadpis na menších zařízeních */
+    }
+  
+    .onas-info-text {
+      font-size: 1rem; /* Mírně menší text pro mobilní zařízení */
+    }
+  }
+  

@@ -1,62 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper, Typography, Divider, Link } from '@mui/material';  // Import potřebných komponent z MUI
+import { Grid, Paper, Typography, Button, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import '../Home.css'; // Importujeme CSS pro externí styly
 
 function Home() {
-  const [hryData, setHryData] = useState([]); // Stav pro uchování dat her
-  const [loading, setLoading] = useState(true); // Stav pro načítání dat
+  const [topHry, setTopHry] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/top_hry', {
-      method: 'POST', // Pokud je to POST
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Zajistíme, že data jsou vždy pole
-        setHryData(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Chyba při načítání dat:', error);
-        setHryData([]);  // Pokud nastane chyba, nastavíme prázdné pole
-        setLoading(false);
-      });
+    fetch('http://localhost:5000/top_hry')
+      .then((response) => response.json())
+      .then((data) => setTopHry(data))
+      .catch((error) => console.error('Chyba při načítání top her:', error));
   }, []);
 
-  if (loading) {
-    return <div>Načítání dat pro top hry...</div>;
-  }
-
-  // Pokud jsou data prázdná
-  if (hryData.length === 0) {
-    return <div>Žádné hry nejsou k dispozici.</div>;
-  }
-
   return (
-    <Grid container spacing={0}>
-      {hryData.map((hra, index) => (
-        <Grid item xs={4} key={index}>
-          <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-            <Typography variant="h5">
-              <Divider>
-                {hra.title}
-              </Divider>
-            </Typography>
-          </Paper>
-          <Paper variant="elevation" elevation={4} square={false} style={{ textAlign: "center", margin: 5, padding: 10 }}>
-            <Typography variant="h5">
-              <img src={hra.img} alt={hra.title} style={{ width: 400, height: 400 }} /><br />
-              <p>{hra.genre}</p>
-              <p>{hra.price} USD</p>
-              <p>{Math.round(hra.price * 24)} KČ</p>
-              {/* Odkaz na detailní stránku */}
-              <Link to={`/detail/${encodeURIComponent(hra.title)}`}>
-                <button>Zobrazit detaily</button> {/* Tlačítko pro přesměrování */}
+    <div className="home-container">
+      <h1 className="title">Top Hry</h1>
+      <Grid container spacing={2}>
+        {topHry.map((hra) => (
+          <Grid item xs={12} sm={6} md={4} key={hra.id}>
+            <Paper className="game-card" elevation={3}>
+              <img src={hra.img} alt={hra.title} className="game-image" />
+              <Typography variant="h6" className="game-title">{hra.title}</Typography>
+              <Typography variant="body1" className="rating">
+                Průměrné hodnocení: 
+                {typeof hra.average_rating === 'number' && !isNaN(hra.average_rating)
+                  ? hra.average_rating.toFixed(2)
+                  : 'N/A'}
+              </Typography>
+              <Typography variant="body2" className="game-genre">{hra.genre}</Typography>
+              <Typography variant="body2" className="game-price">{hra.price} USD</Typography>
+              <Typography variant="body2" className="game-price-czk">
+                {(hra.price * 24).toFixed(2)} KČ
+              </Typography>
+              <Link component={RouterLink} to={`/detail/${encodeURIComponent(hra.title)}`}>
+                <Button variant="contained" className="details-button">Zobrazit detaily</Button>
               </Link>
-            </Typography>
-          </Paper>
-        </Grid>
-      ))}
-    </Grid>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 }
 

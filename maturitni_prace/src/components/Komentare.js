@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
+import '../Komentare.css';
 
 export default function Komentare() {
     const [comment, setComment] = useState('');
@@ -41,7 +42,7 @@ export default function Komentare() {
                         setComments(data);
                     }
                     const sortedComments = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                        setComments(sortedComments);
+                    setComments(sortedComments);
                 })
                 .catch(error => setError('Chyba při načítání komentářů.'));
         }
@@ -83,7 +84,7 @@ export default function Komentare() {
                     created_at: new Date().toISOString(), // Simulujeme vytvořený čas
                 };
                 setComments([...comments, newComment]);
-                
+
             } else {
                 setError(data.error);
                 setSuccessMessage('');
@@ -98,11 +99,11 @@ export default function Komentare() {
         // Zjištění zda uživatel už interagoval s tímto komentářem
         const commentIndex = comments.findIndex(comment => comment.id === reviewId);
         const userHasInteracted = comments[commentIndex]?.user_interaction === action;
-    
+
         if (userHasInteracted) {
             return;  // Pokud uživatel už provedl stejnou akci, nic se nestane
         }
-    
+
         try {
             const response = await fetch('http://localhost:5000/LikesDislikes', {
                 method: 'POST',
@@ -115,13 +116,13 @@ export default function Komentare() {
                     user_id: uzivatel,
                 }),
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 setSuccessMessage(data.message);
                 setError('');
-    
+
                 // Aktualizace likes nebo dislikes podle akce
                 setComments(comments.map(comment =>
                     comment.id === reviewId
@@ -152,9 +153,9 @@ export default function Komentare() {
             <div id="komentare">
                 <form onSubmit={handleSubmit}>
                     <input
-                        id='comment'
+                        id="comment"
                         type="text"
-                        placeholder='Poděl se s námi o své poznatky :)'
+                        placeholder="Poděl se s námi o své poznatky :)"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                     />
@@ -165,26 +166,26 @@ export default function Komentare() {
                             name="half-rating"
                             value={rating}
                             precision={0.5}
-                            onChange={(event, newRating) => setRating(newRating)} // nová opravená verze
+                            onChange={(event, newRating) => setRating(newRating)}
                         />
-
                     </Stack>
                 </form>
             </div>
 
             {/* Zobrazení chybové zprávy */}
-            {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
+            {error && <div className="error-message">{error}</div>}
 
             {/* Zobrazení úspěšné zprávy */}
-            {successMessage && <div className="success-message" style={{ color: 'green' }}>{successMessage}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
 
             <Typography variant="h4">
                 RECENZE UŽIVATELŮ
             </Typography>
 
+            {/* Zobrazení komentářů */}
             {comments.length > 0 ? (
                 comments.map((komentar) => (
-                    <Paper key={komentar.id} variant="elevation" elevation={4} square={false} style={{ color: 'white', backgroundColor: 'rgb(85, 85, 85)', textAlign: "center", margin: 5, padding: 10 }}>
+                    <Paper key={komentar.id} variant="elevation" elevation={4} square={false} className="Paper">
                         <Divider>
                             {komentar.user_name}, {komentar.created_at}
                         </Divider>

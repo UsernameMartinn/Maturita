@@ -1,0 +1,97 @@
+/* Hlavní kontejner pro komentáře */
+#komentare {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2e2e2e; /* Tmavé pozadí pro sekci komentářů */
+    border-radius: 8px;
+}
+
+/* Formulář pro přidání komentáře */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: black;
+    font-size: 1rem;
+}
+
+button[type="submit"], button[type="button"] {
+    background-color: rgb(124, 26, 178);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover, button[type="button"]:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová */
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin: 15px 0;
+}
+
+.success-message {
+    color: green;
+    font-size: 1rem;
+    margin: 15px 0;
+}
+
+/* Zobrazování recenzí */
+.Paper {
+    background-color: rgb(41, 37, 44);
+    color: white;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.Paper h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.Paper p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Buttony pro like a dislike */
+.Paper button {
+    background-color: #555;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.Paper button:hover {
+    background-color: rgb(124, 26, 178);
+}
+
+.Paper button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+/* Rating */
+.MuiRating-root {
+    margin-bottom: 10px;
+}
