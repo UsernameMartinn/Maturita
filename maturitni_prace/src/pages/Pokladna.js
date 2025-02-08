@@ -37,7 +37,7 @@ function Pokladna() {
 
     useEffect(() => {
         const messageText = kosik.map((polozka) => (
-            `${polozka.mnozstvi}x ${polozka.title} - ${Math.floor(polozka.celkovaCena * 100) / 100} USD`
+            `${polozka.mnozstvi}x ${polozka.title} - ${Math.floor((polozka.celkovaCena * 100) / 100) * 27} KČ / ${Math.floor(polozka.celkovaCena * 100) / 100} USD`
         )).join('\n');
     
         setMessage(messageText);
@@ -76,7 +76,7 @@ function Pokladna() {
                     {kosik && kosik.length > 0 ? (
                         kosik.map((polozka, index) => (
                             <li key={index}>
-                                <p>{polozka.mnozstvi}x {polozka.title} - {Math.floor(polozka.celkovaCena * 100) / 100}</p>
+                                <p>{polozka.mnozstvi}x {polozka.title} - {Math.floor((polozka.celkovaCena * 100) / 100) * 27} KČ / ${Math.floor((polozka.celkovaCena * 100) / 100)} USD </p>
                             </li>
                         ))
                     ) : (

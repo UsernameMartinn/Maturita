@@ -1,0 +1,57 @@
+/* Celkový vzhled pro PrihlasovaciMenu */
+.prihlasovaci-menu-container {
+    background-color:rgb(124, 26, 178); /* Tmavé pozadí pro celý obsah */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Ikona menu */
+.prihlasovaci-menu-icon {
+    color: rgb(124, 26, 178); /* Fialová barva pro ikonu */
+    margin-bottom: 10px;
+}
+
+/* Vzhled samotného menu */
+.MuiMenu-paper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertikálně centrováno */
+    align-items: center; /* Horizontálně centrováno */
+    background-color: rgb(55, 52, 64); /* Tmavé pozadí pro menu */
+    border-radius: 8px;
+    padding: 10px 0; /* Nastavení mezery mezi položkami */
+}
+
+/* Tlačítka v menu */
+.MuiMenuItem-root {
+    color: white; /* Bílé písmo pro položky menu */
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    width: 100%; /* Zajistí, že položky budou mít celkovou šířku menu */
+    text-align: center; /* Zarovnání textu do středu */
+    padding: 12px; /* Zvýšení velikosti klikatelné plochy */
+}
+
+/* Hover efekt pro položky menu */
+.MuiMenuItem-root:hover {
+    background-color: rgb(124, 26, 178); /* Fialová při hover */
+}
+
+/* Tlačítko pro odhlášení (pokud se objeví jako samostatné tlačítko) */
+.logout-button {
+    background-color: rgb(124, 26, 178); /* Fialové tlačítko pro odhlášení */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover efekt pro tlačítko odhlášení */
+.logout-button:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová při hover */
+}

@@ -1,0 +1,96 @@
+/* Celkový vzhled pro LogIn a SignIn */
+.login-signin-container {
+    background-color: rgb(41, 37, 44); /* Tmavé pozadí pro celou stránku */
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* Titulek pro LogIn a SignIn */
+  .login-signin-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(124, 26, 178); /* Fialová barva pro titulek */
+    margin-bottom: 20px;
+  }
+  
+  /* Formulář pro přihlášení a registraci */
+  .login-signin-form {
+    background-color: rgb(55, 52, 64); /* Tmavé pozadí pro formulář */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Label pro vstupy */
+  .login-signin-form label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  /* Vstupy pro formulář */
+  .login-signin-form input {
+    width: 94%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgb(41, 37, 44);
+    color: white;
+    border: 1px solid rgb(55, 52, 64);
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Tlačítko pro odeslání formuláře */
+  .login-signin-button {
+    background-color: rgb(124, 26, 178); /* Fialové tlačítko */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 250px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover efekt pro tlačítko */
+  .login-signin-button:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová při hover */
+  }
+  
+  /* Chybová zpráva */
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Úspěšná zpráva */
+  .success-message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Styl pro prázdné formuláře (při chybě) */
+  .login-signin-empty {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 20px;
+  }
+  

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from "react-router-dom";
 import Button from '@mui/material/Button';
-import '../App.css';
+import '../Prihlasovani.css'; // Ujisti se, že tento soubor obsahuje importovaný CSS
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
@@ -14,11 +14,11 @@ export default function PrihlasovaciMenu() {
     const [uzivatel, setUzivatel] = useState('');
     const [hra, setHra] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
-    
+
     const open = Boolean(anchorEl);
 
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';  // Načteme hodnoty z localStorage
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const admin = localStorage.getItem('isAdmin') === 'true';
         const uzivatel = localStorage.getItem('uzivatel');
         const hra = localStorage.getItem('hra');
@@ -27,7 +27,7 @@ export default function PrihlasovaciMenu() {
         setIsAdmin(admin);
         setUzivatel(uzivatel);
         setHra(hra);
-    }, [isLoggedIn]);
+    }, []);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -38,12 +38,16 @@ export default function PrihlasovaciMenu() {
     };
 
     const handleLogout = () => {
-        // Zde můžete implementovat logiku pro odhlášení uživatele
-        localStorage.setItem('isLoggedIn', 'false');
+        setIsAdmin(false);
         setIsLoggedIn(false);
+        setUzivatel('');
+        
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.setItem('isAdmin', 'false');
+        localStorage.setItem('uzivatel', '');
+        localStorage.setItem('mail', '');
     };
 
-    // Možnosti menu
     const options = isLoggedIn
         ? [
             { label: "Odhlásit se", action: handleLogout }
@@ -56,7 +60,7 @@ export default function PrihlasovaciMenu() {
     const ITEM_HEIGHT = 48;
 
     return (
-        <div>
+        <div className="prihlasovaci-menu-container">
             <IconButton
                 aria-label="more"
                 id="long-button"
@@ -64,6 +68,7 @@ export default function PrihlasovaciMenu() {
                 aria-expanded={open ? 'true' : undefined}
                 aria-haspopup="true"
                 onClick={handleClick}
+                className="prihlasovaci-menu-icon"
             >
                 <MoreVertIcon />
             </IconButton>
@@ -95,6 +100,7 @@ export default function PrihlasovaciMenu() {
                         }}
                         component={option.path ? Link : 'button'}
                         to={option.path}
+                        className="MuiMenuItem-root"
                     >
                         {option.label}
                     </MenuItem>

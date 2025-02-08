@@ -14,17 +14,16 @@
   }
   
   /* Stylování karet her */
-  .game-card {
+  .home-container .game-card {
     padding: 20px;
     text-align: center;
     border-radius: 8px;
-    background-color: rgb(41, 37, 44); /* Pozadí karet (stejná tmavá barva pro jednotnost) */
+    background-color: rgb(55, 52, 64);;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
-    color: white; /* Bílé texty uvnitř karet */
   }
   
-  .game-card:hover {
+  .home-container .game-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     background-color: rgb(96, 7, 145);

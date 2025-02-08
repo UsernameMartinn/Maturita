@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import '../LogInSignIn.css';
+
 
 function LogIn() {
   // Definujeme stavy pro jednotlivé hodnoty formuláře
@@ -71,37 +73,32 @@ function LogIn() {
   }, []);  // Tento useEffect se spustí pouze při prvním načtení komponenty
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>Uživatelské jméno nebo email:
-          <input
-            id='logIn'
-            type="text"
-            value={logIn}
-            onChange={(e) => setLogIn(e.target.value)}
-          />
-        </label>
-        <label>Heslo:
-          <input
-            id='passwrd'
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <button type="submit">Přihlásit se</button>
-      </form>
-
-      {/* Zobrazení chybové zprávy */}
-      {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
-
-      {/* Zobrazení úspěšné zprávy */}
-      {successMessage && <div className="success-message" style={{ color: 'green' }}>{successMessage}</div>}
-
-      <div>Je admin: {isAdmin ? 'Ano' : 'Ne'}</div>
-      <div>Je přihlášen: {isLoggedIn ? 'Ano' : 'Ne'} {uzivatel}</div>
-    </div>
-  );
+      <div className="login-signin-container">
+        <h2 className="login-signin-title">Přihlášení</h2>
+        <form onSubmit={handleSubmit} className="login-signin-form">
+          <label>Uživatelské jméno nebo email:
+            <input
+              id="logIn"
+              type="text"
+              value={logIn}
+              onChange={(e) => setLogIn(e.target.value)}
+            />
+          </label>
+          <label>Heslo:
+            <input
+              id="passwrd"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <button type="submit" className="login-signin-button">Přihlásit se</button>
+        </form>
+    
+        {error && <div className="error-message">{error}</div>}
+        {successMessage && <div className="success-message">{successMessage}</div>}
+      </div>
+    );
 }
 
 export default LogIn;

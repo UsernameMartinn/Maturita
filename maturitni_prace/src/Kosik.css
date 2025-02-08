@@ -1,0 +1,67 @@
+/* Celkový vzhled stránky Košík */
+.kosik-container {
+    background-color: rgb(41, 37, 44); /* Tmavé pozadí pro celou stránku */
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  /* Titulek pro Košík */
+  .kosik-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(124, 26, 178); /* Fialová barva pro titulek */
+    margin-bottom: 20px;
+  }
+  
+  /* Seznam položek v košíku */
+  .kosik-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Individuální položka v košíku */
+  .kosik-item {
+    background-color: rgb(55, 52, 64); /* Tmavé pozadí pro každou položku */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Text položky */
+  .kosik-item-text {
+    font-size: 1rem;
+    color: white;
+  }
+  
+  /* Tlačítko pro zaplacení */
+  .kosik-button {
+    background-color: rgb(124, 26, 178); /* Fialové tlačítko */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-transform: none;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover efekt pro tlačítko */
+  .kosik-button:hover {
+    background-color: rgb(96, 7, 145); /* Tmavší fialová při hover */
+  }
+  
+  /* Styl pro prázdný košík */
+  .kosik-empty {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 20px;
+  }
+  

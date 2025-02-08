@@ -9,7 +9,7 @@
   .game-card {
     padding: 15px;
     text-align: center;
-    background-color: rgb(41, 37, 44); /* Stejný tmavý odstín pro karty */
+    background-color: rgb(55, 52, 64); /* Stejný tmavý odstín pro karty */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import '../LogInSignIn.css';
+
 
 function SignIn() {
   // Definujeme stavy pro jednotlivé hodnoty formuláře
@@ -55,11 +57,12 @@ function SignIn() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="login-signin-container">
+      <h2 className="login-signin-title">Registrace</h2>
+      <form onSubmit={handleSubmit} className="login-signin-form">
         <label>Uživatelské jméno:
           <input
-            id='user_name'
+            id="user_name"
             type="text"
             value={user_name}
             onChange={(e) => setUserName(e.target.value)}
@@ -67,7 +70,7 @@ function SignIn() {
         </label>
         <label>E-mail:
           <input
-            id='mail'
+            id="mail"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -75,30 +78,28 @@ function SignIn() {
         </label>
         <label>Heslo:
           <input
-            id='passwrd'
+            id="passwrd"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <label>Znovu zadejte své heslo:
+        <label>Znovu zadejte heslo:
           <input
-            id='passwrdPotvrzeni'
+            id="passwrdPotvrzeni"
             type="password"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
         </label>
-        <button type="submit">Registrovat se</button>
+        <button type="submit" className="login-signin-button">Registrovat se</button>
       </form>
-
-      {/* Zobrazení chybové zprávy */}
-      {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
-
-      {/* Zobrazení úspěšné zprávy */}
-      {successMessage && <div className="success-message" style={{ color: 'green' }}>{successMessage}</div>}
+  
+      {error && <div className="error-message">{error}</div>}
+      {successMessage && <div className="success-message">{successMessage}</div>}
     </div>
   );
+  
 }
 
 export default SignIn;
