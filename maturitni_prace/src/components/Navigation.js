@@ -13,7 +13,7 @@ const Navigation = () => {
     useEffect(() => {
         const uzivatel = localStorage.getItem('uzivatel');
         setUzivatel(uzivatel);
-    }, []);
+    }, [uzivatel]);
 
     return (
         <>

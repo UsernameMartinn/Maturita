@@ -30,6 +30,24 @@ export default function Komentare() {
         setHra(hra);
     }, []);
 
+    const fetchComments = () => {
+        if (hra) {
+            // Volání backendu pro načtení komentářů pro konkrétní hru
+            fetch(`http://localhost:5000/nactiHry/${hra}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        // Seřadíme komentáře podle data, aby byl nejnovější komentář nahoře
+                        const sortedComments = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        setComments(sortedComments);
+                    }
+                })
+                .catch(error => setError('Chyba při načítání komentářů.'));
+        }
+    };
+
     useEffect(() => {
         if (hra) {
             // Volání backendu pro načtení komentářů pro konkrétní hru
@@ -95,6 +113,7 @@ export default function Komentare() {
         }
     };
 
+    /*
     const handleLikeDislike = async (reviewId, action) => {
         // Zjištění zda uživatel už interagoval s tímto komentářem
         const commentIndex = comments.findIndex(comment => comment.id === reviewId);
@@ -134,6 +153,59 @@ export default function Komentare() {
                         }
                         : comment
                 ));
+            } else {
+                setError(data.error);
+                setSuccessMessage('');
+            }
+        } catch (error) {
+            setError('Chyba při odesílání požadavku');
+            setSuccessMessage('');
+        }
+    };
+    */
+    const handleLikeDislike = async (reviewId, action) => {
+        // Zjištění zda uživatel už interagoval s tímto komentářem
+        const commentIndex = comments.findIndex(comment => comment.id === reviewId);
+        const userHasInteracted = comments[commentIndex]?.user_interaction === action;
+
+        if (userHasInteracted) {
+            return;  // Pokud uživatel už provedl stejnou akci, nic se nestane
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/LikesDislikes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    review_id: reviewId,
+                    action: action,
+                    user_id: uzivatel,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccessMessage(data.message);
+                setError('');
+
+                // Aktualizace likes nebo dislikes podle akce
+                setComments(comments.map(comment =>
+                    comment.id === reviewId
+                        ? {
+                            ...comment,
+                            likes: action === 'like' ? comment.likes + 1 : comment.likes,
+                            dislikes: action === 'dislike' ? comment.dislikes + 1 : comment.dislikes,
+                            user_interaction: action, // Zaznamenání akce uživatele (like nebo dislike)
+                        }
+                        : comment
+                ));
+
+                // Načteme nové komentáře, aby se zobrazily aktuální hodnoty z backendu
+                fetchComments();
+
             } else {
                 setError(data.error);
                 setSuccessMessage('');

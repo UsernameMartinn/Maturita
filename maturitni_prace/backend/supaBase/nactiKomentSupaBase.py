@@ -7,7 +7,7 @@ from datetime import datetime
 nacti_komentare_blueprint = Blueprint('nacti_komentare', __name__)
 
 # Povolení CORS pro všechny domény
-CORS(nacti_komentare_blueprint, resources={r"/nactiHry/*": {"origins": "*"}})
+CORS(nacti_komentare_blueprint, resources={r"/*": {"origins": "*"}})
 
 # Připojení k Supabase
 url = "https://korkxhmmqodcytkylngt.supabase.co"
@@ -29,7 +29,10 @@ def nacti_comment(title):
         store_id = hra_data["id"]
 
         # Načteme komentáře pro danou hru (používáme store_id z modelu Store)
-        komentare = supabase.table("reviews").select("*").filter("store_id", "eq", store_id).order("created_at", desc=True).execute()
+        #komentare = supabase.table("reviews").select("*").filter("store_id", "eq", store_id).order("created_at", desc=True).execute()
+
+        komentare = supabase.from_("reviews").select('id, rating, review_text, created_at, likes, dislikes, users(id, user_name, user_mail)').filter("store_id", "eq", store_id).order("created_at", desc=True).execute()
+
 
         # Zkontrolujeme, jestli byly komentáře nalezeny
         if komentare.data is None:
@@ -45,7 +48,7 @@ def nacti_comment(title):
                 "created_at": komentar["created_at"],
                 "likes": komentar["likes"],
                 "dislikes": komentar["dislikes"],
-                "user_name": komentar.get("user_name", "Neznámý uživatel")  # Použijeme get pro případ, že user_name není dostupné
+                "user_name": komentar["users"]["user_name"]  # Použijeme get pro případ, že user_name není dostupné
             })
 
         return jsonify(seznam_komentaru)  # Vrátí komentáře jako JSON
