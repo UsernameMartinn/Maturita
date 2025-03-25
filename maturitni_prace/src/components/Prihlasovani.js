@@ -14,6 +14,7 @@ export default function PrihlasovaciMenu() {
     const [uzivatel, setUzivatel] = useState('');
     const [hra, setHra] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
+    const [mail, setMail] = useState('')
 
     const open = Boolean(anchorEl);
 
@@ -22,11 +23,13 @@ export default function PrihlasovaciMenu() {
         const admin = localStorage.getItem('isAdmin') === 'true';
         const uzivatel = localStorage.getItem('uzivatel');
         const hra = localStorage.getItem('hra');
+        const mail = localStorage.getItem('mail')
 
         setIsLoggedIn(loggedIn);
         setIsAdmin(admin);
         setUzivatel(uzivatel);
         setHra(hra);
+        setMail(mail)
     }, []);
 
     const handleClick = (event) => {
